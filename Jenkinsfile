@@ -20,12 +20,12 @@ node {
 
       // Run application using Docker image
       sh "DB=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db`"
-      sh "docker run -e DB_URI=$DB arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
+      sh "docker run -it -e DB_URI=$DB arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
 
-      Run application using Maven
-      dir ('webapp') {
-        sh 'mvn exec:java -DskipTests'
-      }
+      // Run application using Maven
+      // dir ('webapp') {
+      //   sh 'mvn exec:java -DskipTests'
+      //}
     } catch (error) {
     } finally {
       // Stop and remove database container here
