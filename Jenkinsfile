@@ -19,11 +19,8 @@ node {
       // sh 'docker run -d --name db -p 8091-8093:8091-8093 -p 11210:11210 arungupta/oreilly-couchbase:latest'
 
       // Run application using Docker image
-      sh "DB=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db`"
-      env.DBX = $DB
-      sh "docker run --name app-${env.BUILD_NUMBER} -e DB_URI=${env.DBX} arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
-      sh "docker logs app-${env.BUILD_NUMBER}"
-      sh "docker rm app-${env.BUILD_NUMBER}"
+      //sh "DB=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db`"
+      sh "docker run app-${env.BUILD_NUMBER} -e DB_URI=172.17.04 arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
 
       // Run application using Maven
       // dir ('webapp') {
