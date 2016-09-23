@@ -1,6 +1,6 @@
 node {
   checkout scm
-  env.PATH = "${tool 'Maven3'}/bin:${env.PATH}"
+  env.PATH = "${tool 'Maven3'}/bin:${env.PATH}:/bin"
   stage('Package') {
     dir('webapp') {
       sh 'mvn clean package -DskipTests'
@@ -20,8 +20,7 @@ node {
 
       // Run application using Docker image
       sh "DB=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db`"
-      sh "echo docker run -it -e DB_URI=$DB arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
-      sh "docker run -it -e DB_URI=$DB arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
+      sh "docker run -e DB_URI=$DB arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
 
       // Run application using Maven
       // dir ('webapp') {
