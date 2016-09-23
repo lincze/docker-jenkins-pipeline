@@ -1,6 +1,6 @@
 node {
   checkout scm
-  env.PATH = "${tool 'Maven3'}/bin:${env.PATH}:/bin"
+  env.PATH = "${tool 'Maven3'}/bin:${env.PATH}"
   stage('Package') {
     dir('webapp') {
       sh 'mvn clean package -DskipTests'
@@ -19,7 +19,8 @@ node {
       // sh 'docker run -d --name db -p 8091-8093:8091-8093 -p 11210:11210 arungupta/oreilly-couchbase:latest'
 
       // Run application using Docker image
-      sh "DB=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db`"
+      env.DB = $(sh "docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db"
+      // sh "DB=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db`"
       sh "docker run -e DB_URI=$DB arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
 
       // Run application using Maven
