@@ -20,7 +20,7 @@ node {
 
       // Run application using Docker image
       //sh "DB=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db`"
-      sh "docker run app-${env.BUILD_NUMBER} -e DB_URI=172.17.04 arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
+      sh "docker run --name app-${env.BUILD_NUMBER} -e DB_URI=172.17.04 arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
 
       // Run application using Maven
       // dir ('webapp') {
